@@ -1,29 +1,28 @@
-import java.io.File;
-import java.util.Arrays;
+import java.io.InputStream;
 import java.util.Scanner;
 
 public class Test {
-    private static User[] users=null;
+    public static void main(String[] args) throws ClassNotFoundException {
+        boolean bo=true;
+        while (bo) {
+            System.out.println("请输入用户名：");
+            Scanner sc = new Scanner(System.in);
+            String username = sc.next();//阻塞方法
+            System.out.println("请输入密码：");
+            String password = sc.next();
 
-    public static  void main(String[] args){
-                /*
-        开始读文件
-         */
-        File file=new File("C:\\Users\\dell\\IdeaProjects\\comshop\\src\\users.xlsx");
-        ReadExcel readExcel=new ReadExcel();//创建对象
-        User Users[]=readExcel.readExcel(file);
-
-        System.out.println("请输入用户名: ");
-
-        Scanner sc=new Scanner(System.in);
-        String username=sc.next();
-
-        System.out.println("请输入密码:");
-        String password=sc.next();
-
-        for(User user:users){
-            if(username.equals(user.getUsername())&&password.equals(user.getPassword())){
-                System.out.println("登录成功");
+            //File file = new File("C:\\Users\\Administrator\\IdeaProjects\\ConsoleShop\\src\\users.xlsx");
+            InputStream in = Class.forName("Test").getResourceAsStream("/users.xlsx");
+            ReadUserExcel readExcel = new ReadUserExcel();//创建对象
+            User users[] = readExcel.readExcel(in);
+            for (int i = 0; i < users.length; i++) {
+                if (username.equals(users[i].getUsername()) && password.equals(users[i].getPassword())) {
+                    System.out.println("登录成功");
+                    bo=false;
+                    break;
+                } else {
+                    System.out.println("登录失败");
+                }
             }
         }
     }
